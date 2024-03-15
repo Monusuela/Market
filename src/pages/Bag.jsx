@@ -3,7 +3,7 @@ import Cart from '../components/Cart'
 import { useCart } from 'react-use-cart'
 
 const Bag = () => {
-    const { items, updateItemQuantity,removeItem } = useCart();
+    const { items, updateItemQuantity,removeItem, isEmpty } = useCart();
 
     const product =items.map(item => {
         return <Fragment key={item.id}>
@@ -33,6 +33,7 @@ const Bag = () => {
   return (
     <section className='Bag'>
         <div className='Container'>
+            {isEmpty && <h2 className='title-2'>корзина пустая</h2>}
         <div className='Bag__row'>
            {product}
         </div>

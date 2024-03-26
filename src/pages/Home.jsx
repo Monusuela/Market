@@ -1,6 +1,21 @@
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment, useState, useEffect, useReducer } from 'react'
 import Cart from "../components/Cart";
 import axios from 'axios';
+
+const reducer = (state, action) => {
+    switch(action.type) {
+        case "Start": return {
+            message: ("Start upload")
+        }; 
+        case "Loading": return {
+            message: ("Loading data")
+        };
+        case "Loaded": return {
+            message: ("Data has loaded")
+        };
+
+    }
+}
 
 const Pagination = ({ productsPerPage, totalProducts, paginate }) => {
     let array = [];
@@ -27,7 +42,11 @@ const Home = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [ProductsPerPage] = useState(3);
 
+    const [state, dispatch] = useReducer(reducer,
+        {message: "Start"})
+
     const RequestGet = async (path) => {
+        dispatch("Loading");
         path = "http://localhost:9000" + path
         await axios.get(path).then(response => {
             const data = response.data;
@@ -51,10 +70,14 @@ const Home = () => {
     useEffect(() => {
         try {
             RequestGet("/product")
+            dispatch("Loaded")
         } catch (error) {
             alert(error?.message);
+            dispatch("Loading")
         }
     }, [])
+
+    console.log(state?.message);
 
     const product = Products
         .slice(indexOfFirstProducts, indexOfLastProducts)

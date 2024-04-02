@@ -33,12 +33,12 @@ const Product = () => {
     }
 
     const handleBuy = () => {
-        window.alert(`Продукт ${GetProduct.title}. Добавлен в корзину`);
+        window.alert(`Продукт ${GetProduct.title}. Добавлено в корзину`);
 
         addItem(GetProduct);
 
         setTimeout(() => {
-            window.location.replace("/Market/bag")
+            window.location.replace("/Market/bag/");
         }, 1000)
     }
 
@@ -51,19 +51,19 @@ const Product = () => {
     }, [GetProduct.id, id, DataProducts.length])
 
     const seealsoItem = DataProducts
-    .filter(product => Number(product.id) !== Number(id))
-    .sort((a, b) => b.id - a.id )
-    .slice(0, 3)
-    .map(product => {
-        return <Fragment key={product.id}>
-            <Cart
-                price={product.price}
-                id={product.id}
-                image={product.image}
-                title={product.title}
-            />
-        </Fragment>
-    })
+        .filter(product => Number(product.id) !== Number(id))
+        .sort((a, b) => b.id - a.id)
+        .slice(0, 3)
+        .map(product => {
+            return <Fragment key={product.id}>
+                <Cart
+                    price={product.price}
+                    id={product.id}
+                    image={product.image}
+                    title={product.title}
+                />
+            </Fragment>
+        })
 
     return (
         <Fragment>
